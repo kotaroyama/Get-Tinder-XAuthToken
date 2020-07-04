@@ -1,14 +1,21 @@
+"""Retrieves a Tinder XAuthToken for a registered user"""
 import time
 import re
 import requests
 
-from bs4 import BeautifulSoup
 from getpass import getpass
+
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
+def display_warning():
+    """Displays warning other info"""
+    print("NOTE: You need to have registered on Tinder app or website with your Facebook account first\n")
+
 def parse_auth(html_doc):
+    """Parses the access_token out of the html page"""
     soup = BeautifulSoup(html_doc, 'html.parser')
 
     # Find the script tag that has window.location.href
@@ -27,6 +34,7 @@ def parse_auth(html_doc):
     return access_token_string_final
 
 def get_xauth_token(long_token):
+    """Retrieves the XAuthToken using the access_token_string"""
     USER_AGENT = "Tinder/7.5.3 (iPhone; iOS 10.3.2; Scale/2.00)"
 
     HEADERS = {
@@ -43,11 +51,9 @@ def get_xauth_token(long_token):
 
     return r_new.json()
 
-def sleep_for_x_secs(sec):
-    sec = 500
-    time.sleep(sec)
-
 def main():
+    display_warning()
+    
     # Option to block the notification popup (for Google Chrome)
     option = Options()
     option.add_argument("--disable-infobars")
