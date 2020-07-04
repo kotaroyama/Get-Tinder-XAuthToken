@@ -1,13 +1,13 @@
 """Retrieves a Tinder XAuthToken for a registered user"""
 import time
 import re
-import requests
 
 from getpass import getpass
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import requests
 
 
 def display_warning():
