@@ -12,7 +12,9 @@ from selenium.webdriver.chrome.options import Options
 
 def display_warning():
     """Displays warning other info"""
-    print("NOTE: You need to have registered on Tinder app or website with your Facebook account first\n")
+    print("Get Tinder Access Token - Retrieves a tinder XAuthToken")
+    print("Author: Kotaro Yama (kotaro.h.yama@gmail.com)")
+    print("\nNOTE: You need to have registered on Tinder app or website with your Facebook account first\n")
 
 def parse_auth(html_doc):
     """Parses the access_token out of the html page"""
@@ -100,9 +102,9 @@ def main():
     # Close the driver for the long token
     driver.close()
 
-    # Print out the JSON object
-    xauth = get_xauth_token(long_token)
-    print(xauth)
+    # Print out the XAuthToken
+    xauth = get_xauth_token(long_token)['data']['api_token']
+    print(f"\nXAuthToken: {xauth}")
 
 if __name__ == '__main__':
     main()
