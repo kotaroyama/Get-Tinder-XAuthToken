@@ -2,10 +2,8 @@ import time
 import re
 import requests
 
-from getpass import getpass
-
 from bs4 import BeautifulSoup
-
+from getpass import getpass
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -61,30 +59,33 @@ def main():
         "profile.default_content_setting_values.notifications": 2
     })
 
-    # Login info (Facebook)
-    email_adrs = input('Please enter your email: ')
-    password = getpass() 
-
-    driver = webdriver.Chrome(options=option)
-    driver.get("https://www.facebook.com/v2.6/dialog/oauth?redirect_uri=fb464891386855067%3A%2F%2Fauthorize%2F&scope=user_birthday%2Cuser_photos%2Cuser_education_history%2Cemail%2Cuser_relationship_details%2Cuser_friends%2Cuser_work_history%2Cuser_likes&response_type=token%2Csigned_request&client_id=464891386855067&ret=login&fallback_redirect_uri=221e1158-f2e9-1452-1a05-8983f99f7d6e&ext=1556057433&hash=Aea6jWwMP_tDMQ9y")
-
+    # Iterate the loop until the user enters correct email and password
     while True:
-        # Email input
-        email_text = driver.find_element_by_id("email")
-        email_text.send_keys(email_adrs)
-        # Password input
-        password_text = driver.find_element_by_id("pass")
-        password_text.send_keys(password)
-
         try:
+            # Login info (Facebook)
+            email_adrs = input('Email: ')
+            password = getpass() 
+
+            driver = webdriver.Chrome(options=option)
+            driver.get("https://www.facebook.com/v2.6/dialog/oauth?redirect_uri=fb464891386855067%3A%2F%2Fauthorize%2F&scope=user_birthday%2Cuser_photos%2Cuser_education_history%2Cemail%2Cuser_relationship_details%2Cuser_friends%2Cuser_work_history%2Cuser_likes&response_type=token%2Csigned_request&client_id=464891386855067&ret=login&fallback_redirect_uri=221e1158-f2e9-1452-1a05-8983f99f7d6e&ext=1556057433&hash=Aea6jWwMP_tDMQ9y")
+
+            # Email input
+            email_text = driver.find_element_by_id("email")
+            email_text.send_keys(email_adrs)
+            # Password input
+            password_text = driver.find_element_by_id("pass")
+            password_text.send_keys(password)
+
             # Submit
             password_text.submit()
-            break
-        except selenium.common.exceptions.NoSuchElementException:
-            print("Incorrect credential")
 
-    # Get the OK button (To allow Tinder Auth)
-    ok_button = driver.find_element_by_name("__CONFIRM__")
+            # Get the OK button (To allow Tinder Auth)
+            ok_button = driver.find_element_by_name("__CONFIRM__")
+            break
+        except:
+            driver.close()
+            print('Incorrect credential, try again...\n')
+
     ok_button.submit()
 
     # page_source property has the html source
