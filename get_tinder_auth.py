@@ -5,6 +5,7 @@ import re
 from getpass import getpass
 
 from bs4 import BeautifulSoup
+import chromedriver_autoinstaller
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import requests
@@ -12,9 +13,10 @@ import requests
 
 def display_warning():
     """Displays warning other info"""
-    print("Get Tinder Access Token - Retrieves a tinder XAuthToken")
+    print("Get Tinder Access Token - Retrieves a Tinder XAuthToken")
     print("Author: Kotaro Yama (kotaro.h.yama@gmail.com)")
     print("\nNOTE: You need to have registered on Tinder app or website with your Facebook account first\n")
+    print("\nAlso, you do not have to do anything while the browser is doing its job.")
 
 def parse_auth(html_doc):
     """Parses the access_token out of the html page"""
@@ -74,7 +76,9 @@ def main():
             email_adrs = input('Email: ')
             password = getpass() 
 
-            driver = webdriver.Chrome(options=option)
+            # Automatically installs the chrome driver
+            chromedriver_autoinstaller.install() 
+            driver = webdriver.Chrome()
             driver.get("https://www.facebook.com/v2.6/dialog/oauth?redirect_uri=fb464891386855067%3A%2F%2Fauthorize%2F&scope=user_birthday%2Cuser_photos%2Cuser_education_history%2Cemail%2Cuser_relationship_details%2Cuser_friends%2Cuser_work_history%2Cuser_likes&response_type=token%2Csigned_request&client_id=464891386855067&ret=login&fallback_redirect_uri=221e1158-f2e9-1452-1a05-8983f99f7d6e&ext=1556057433&hash=Aea6jWwMP_tDMQ9y")
 
             # Email input
